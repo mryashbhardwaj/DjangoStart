@@ -1,14 +1,16 @@
-# from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import Http404
 from .models import Album
-from django.template import loader
+from django.shortcuts import render
+
 def index (request):
 	all_albums= Album.objects.all()
-	template = loader.get_template("music/index.html")
-	context ={
-		"albums": all_albums ,
-	}
-	return HttpResponse(template.render(context,request))
+	return render(request , "music/index.html",{"albums": all_albums })
 
 def detail(request, album_id):
-	return HttpResponse("<h2>Details for album id" + str(album_id) + "</h2>")
+	try : 
+		album= Album.objects.get (id = album_id)
+	except :
+		raise Http404("Oops, that album does not exist")
+	songs = album.song_set.all()
+	return render(request , "music/detail.html",{"album": album ,"songs": songs } )
+	

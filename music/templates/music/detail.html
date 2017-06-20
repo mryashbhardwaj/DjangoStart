@@ -1,0 +1,9 @@
+<img src="{{album.album_logo}}">
+<h1>{{album.album_title}}</h1></br>
+<h3>{{album.artist}}</h3></br>
+
+<ul>
+	{% for song in songs%}
+		<li><a href= "/song/{{song.song_title}}" >{{ song.song_title }}</a> </li>
+	{% endfor %}
+</ul>	
