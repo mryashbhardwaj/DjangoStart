@@ -2,8 +2,22 @@
 <h1>{{album.album_title}}</h1></br>
 <h3>{{album.artist}}</h3></br>
 
-<ul>
-	{% for song in songs%}
-		<li><a href= "/song/{{song.song_title}}" >{{ song.song_title }}</a> </li>
-	{% endfor %}
-</ul>	
+{% if error_message %}
+	<p><strong>{{error_message}}</strong></p>
+
+{% endif %}
+
+<form action = "{% url 'music:faveroute' album.id %}" method="post">
+	{% csrf_token %}
+	{% for song in album.song_set.all %}
+		<input type="radio" id="song{{ forloop.counter}}" name="song" value="{{ song.id }}"> 
+		<label>
+			{{song.song_title}}
+			{% if song.is_faveroute %}
+				<img src="https://discussions.citrix.com/public/style_images/master/star.png"/>
+			{% endif %}
+		</label></br>
+			
+	{%endfor%}
+	<input type="submit" value="Faveroute">
+</form>
