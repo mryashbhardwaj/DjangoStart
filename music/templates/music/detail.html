@@ -1,23 +1,21 @@
-<img src="{{album.album_logo}}">
-<h1>{{album.album_title}}</h1></br>
-<h3>{{album.artist}}</h3></br>
+{%extends "music/base.html"%}
+<!-- title -->
+{%block title%}
+	Repo Edit
+{%endblock%}
 
-{% if error_message %}
-	<p><strong>{{error_message}}</strong></p>
 
-{% endif %}
-
-<form action = "{% url 'music:faveroute' album.id %}" method="post">
-	{% csrf_token %}
-	{% for song in album.song_set.all %}
-		<input type="radio" id="song{{ forloop.counter}}" name="song" value="{{ song.id }}"> 
-		<label>
-			{{song.song_title}}
-			{% if song.is_faveroute %}
-				<img src="https://discussions.citrix.com/public/style_images/master/star.png"/>
-			{% endif %}
-		</label></br>
-			
-	{%endfor%}
-	<input type="submit" value="Faveroute">
-</form>
+{% block body %}
+	<img src="{{album.album_logo}}">
+	<h1>{{album.album_title}}</h1></br>
+	<h3>{{album.artist}}</h3></br>
+		{% for song in album.song_set.all %}
+			<label>
+				{{song.song_title}}
+				{% if song.is_faveroute %}
+					<img src="https://discussions.citrix.com/public/style_images/master/star.png"/>
+				{% endif %}
+			</label></br>
+				
+		{%endfor%}
+{% endblock %}
